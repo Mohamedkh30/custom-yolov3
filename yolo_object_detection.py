@@ -3,10 +3,10 @@ import numpy as np
 import glob
 
 # Load Yolo
-net = cv2.dnn.readNet("yolov3_training_last.weights", "yolov3_testing.cfg")
+net = cv2.dnn.readNet(r'C:\Users\Muhammed\Desktop\yolov3_training_last (3).weights',r'C:\Users\Muhammed\Desktop\yolov3_training.cfg')
 
 # Name custom object
-classes = ["apple"]
+classes = ["Ripe","Unripe","Rotten"]
 
 # Images path
 images_path = glob.glob(r"C:\Users\Muhammed\Desktop\New folder\grad. code\code 1\yolo_custom_detection\images\*.jpg")
@@ -58,14 +58,19 @@ for img_path in images_path:
 
     indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
     print(indexes)
-    font = cv2.FONT_HERSHEY_PLAIN
+    font = cv2.FONT_HERSHEY_COMPLEX_SMALL
     for i in range(len(boxes)):
         if i in indexes:
             x, y, w, h = boxes[i]
             label = str(classes[class_ids[i]])
-            color = [200, 99, 243]
+            if(class_ids[i]==0):
+                color = [102, 102, 255]
+            elif(class_ids[i]==1):
+                color = [102, 255, 102]
+            else:
+                color = [0, 25, 51]
             cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-            cv2.putText(img, label, (x, y + 30), font, 3, color, 2)
+            cv2.putText(img, label, (x, y-5), font, 1.5, color, 2)
             
 
 
